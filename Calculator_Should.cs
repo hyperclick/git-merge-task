@@ -16,7 +16,7 @@ namespace Kontur.Courses.Git
 
 		public Maybe<double> Calc(string input)
 		{
-			var args = input.Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries);
+			var args = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 			return calc.Calculate(args);
 		}
 
@@ -52,26 +52,24 @@ namespace Kontur.Courses.Git
 			return Calculator.SplitInput(input);
 		}
 
-		[TestCase("asd", "+", "2")]
-		[TestCase("2", "+", "asd")]
-		[TestCase("asd", "+", "asd")]
-		[TestCase("asd", "asd", "asd")]
-		[TestCase("2", "asd", "3")]
-		public void ThreeArg_BadInput(params string[] args)
+		[TestCase("asd + 2")]
+		[TestCase("2 + asd")]
+		[TestCase("asd + asd")]
+		[TestCase("asd asd asd")]
+		[TestCase("2 asd 3")]
+		public void ThreeArg_BadInput(string args)
 		{
-			var calc = new Calculator();
-			calc.Calculate(new[] { "5" });
-			Assert.IsFalse(calc.Calculate(args).HasValue);
-			Assert.AreEqual(5.0, calc.Calculate(new string[] { }).Value);
+			Calc("5");
+			Assert.IsFalse(Calc(args).HasValue);
+			Assert.AreEqual(5.0, Calc("").Value);
 		}
 
 		[Test]
 		public void OneArg_BadInput()
 		{
-			var calc = new Calculator();
-			calc.Calculate(new[] { "5" });
-			Assert.IsFalse(calc.Calculate(new[] { "asd" }).HasValue);
-			Assert.AreEqual(5.0, calc.Calculate(new string[] { }).Value);
+			Calc("5");
+			Assert.IsFalse(Calc("asd").HasValue);
+			Assert.AreEqual(5.0, Calc("").Value);
 		}
 
 	}
